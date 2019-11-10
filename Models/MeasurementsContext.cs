@@ -6,7 +6,7 @@ namespace sql_berry_api.Models
     {
         private static readonly string connectionString = "Host=iot-system-db.cpzbghw4bziv.eu-central-1.rds.amazonaws.com;Port=5400;Database=iot_system_db;User Id=postgres;Password=inzynierka";
         public DbSet<TemperatureMea> Temperatures { get; set; }
-
+        public DbSet<AnalogInput> AnalogInputs {get;set;}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql(connectionString);
     }

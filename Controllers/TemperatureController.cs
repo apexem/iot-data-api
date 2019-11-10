@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sql_berry_api.Models;
@@ -10,6 +8,11 @@ using System.Text.Json;
 
 namespace sql_berry_api.Controllers
 {
+    public class DhtAddres
+    {
+        public string dhtAddress { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class TemperatureController : ControllerBase
@@ -22,12 +25,13 @@ namespace sql_berry_api.Controllers
         [Route("xd")]
         public ActionResult<TemperatureMea> TestResponse()
         {
-            var xd = new TemperatureMea()
+            var now = DateTime.Now;
+            var temp = new TemperatureMea()
             {
-                Date = DateTime.Now.ToString(),
+                Date = now.ToString(),
                 Temperature = (float)18.0,
             };
-            return Ok(xd);
+            return Ok(temp);
         }
 
         [HttpGet]
@@ -42,22 +46,30 @@ namespace sql_berry_api.Controllers
         public async Task<ActionResult<string>> GetCurrentTemperature()
         {
             var mea = await _dhtService.GetTemperature();
-            var values = JsonSerializer.Deserialize<Dictionary<string, string>>(mea);
             try
             {
+                var now = DateTime.Now;
+                var values = JsonSerializer.Deserialize<TemperatureJson>(mea);
                 var meaObj = new TemperatureMea()
                 {
-                    Date = DateTime.Today.TimeOfDay.ToString(),
+                    Date = now.ToString(),
                     ModuleName = "main DHT11",
-                    Temperature = float.Parse(values["temperature"]),
+                    Temperature = values.temperature,
                 };
                 _repo.AddNewTemperature(meaObj);
                 return mea;
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest(); 
+                return BadRequest();
             }
+        }
+
+        [HttpPost]
+        [Route("espAddress")]
+        public ActionResult SetDhtServiceEndpoint([FromBody]DhtAddres dhtAddress)
+        {
+            return Ok();
         }
     }
 }

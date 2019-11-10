@@ -13,6 +13,17 @@ namespace sql_berry_api.Models
             ctx.Temperatures.Add(mea);
             ctx.SaveChanges();
         }
+        
+        public void AddNewAnalog(AnalogInput mea)
+        {
+            ctx.AnalogInputs.Add(mea);
+            ctx.SaveChanges();
+        }
+
+        public IEnumerable<AnalogInput> GetAnalogInputs()
+        {
+            return ctx.AnalogInputs.ToList();
+        }
 
         public IEnumerable<TemperatureMea> GetAllTemp()
         {

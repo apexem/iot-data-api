@@ -31,12 +31,12 @@ namespace iot_api
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<MeasurementsContext>()
                 .BuildServiceProvider();
-
             services.AddHttpClient<IDhtService, DhtService>();
-            services.AddCors(c =>
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
+                builder.AllowAnyHeader();
+                builder.AllowAnyOrigin();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +50,7 @@ namespace iot_api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors("MyPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
