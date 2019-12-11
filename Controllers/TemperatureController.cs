@@ -66,6 +66,14 @@ namespace sql_berry_api.Controllers
         }
 
         [HttpPost]
+        [Route("AddTemp")]
+        public ActionResult AddTemp([FromBody]TemperatureMea temp)
+        {
+            _repo.AddNewTemperature(temp);
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("espAddress")]
         public ActionResult SetDhtServiceEndpoint([FromBody]DhtAddres dhtAddress)
         {

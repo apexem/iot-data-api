@@ -21,6 +21,7 @@ namespace iot_api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://+:3500");
                 });
     }
 }

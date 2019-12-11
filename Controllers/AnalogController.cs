@@ -23,6 +23,14 @@ namespace sql_berry_api.Controllers
             return Ok(meas);
         }
 
+        [HttpPost]
+        [Route("AddAnalog")]
+        public ActionResult AddAnalog([FromBody]AnalogInput analog)
+        {
+            _repo.AddNewAnalog(analog);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("GetCurrentAnalog")]
         public async Task<ActionResult<string>> GetCurrentAnalog()
