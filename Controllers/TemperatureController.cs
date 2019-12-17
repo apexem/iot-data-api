@@ -53,7 +53,7 @@ namespace sql_berry_api.Controllers
                 var meaObj = new TemperatureMea()
                 {
                     Date = now.ToString(),
-                    ModuleName = "main DHT11",
+                    ModuleName = values.module,
                     Temperature = values.temperature,
                 };
                 _repo.AddNewTemperature(meaObj);

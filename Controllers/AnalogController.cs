@@ -43,7 +43,7 @@ namespace sql_berry_api.Controllers
                 var meaObj = new AnalogInput()
                 {
                     Date = now.ToString(),
-                    ModuleName = "main DHT11",
+                    ModuleName = values.module,
                     Voltage = values.analog,
                 };
                 _repo.AddNewAnalog(meaObj);
